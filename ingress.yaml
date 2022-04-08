@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: kong-db
+  name: monitoring-ingress
+  namespace: prometheus-ha
+spec:
+  rules:
+  - host: grafana-dev.talview.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: grafana
+          servicePort: 3000
+  - host: prometheus-0-dev.talview.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: prometheus-0-service
+          servicePort: 8080
+  - host: prometheus-1-dev.talview.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: prometheus-1-service
+          servicePort: 8080
+  - host: prometheus-2-dev.talview.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: prometheus-2-service
+          servicePort: 8080
+  - host: alertmanager-dev.talview.dev
+    http: 
+      paths:
+      - path: /
+        backend:
+          serviceName: alertmanager
+          servicePort: 9093
+  - host: thanos-querier-dev.talview.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: thanos-querier
+          servicePort: 9090
+  - host: thanos-ruler-dev.talview.dev
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: thanos-ruler
+          servicePort: 9090      
